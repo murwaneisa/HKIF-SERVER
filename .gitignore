@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.*
+
+# Log files
+logs
+*.log
+
+# IDE and code editor files
+.vscode
+.idea
+
+# OS-generated files
+.DS_Store
+
+# Build files
+build
+dist
