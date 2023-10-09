@@ -53,6 +53,12 @@ const userSchema = new mongoose.Schema({
   membershipType: {
     type: String,
     required: true,
+    enum: [
+      'GUEST',
+      'AWAITING_VERIFICATION',
+      'BASIC_MEMBERSHIP',
+      'FULL_MEMBERSHIP',
+    ],
   },
   role: {
     type: String,
@@ -66,6 +72,10 @@ const userSchema = new mongoose.Schema({
       ref: 'Activity',
     },
   ],
+  refreshToken: {
+    type: String,
+    required: false,
+  },
 })
 
 module.exports = mongoose.model('User', userSchema)

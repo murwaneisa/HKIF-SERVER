@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const adminSchema = new mongoose.Schema({
+const boardMemberSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -14,19 +14,14 @@ const adminSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: ['SUPERADMIN', 'ACTIVITY_MANAGER', 'EVENT_MANAGER'],
-  },
-  refreshToken: {
+  imageUrl: {
     type: String,
     required: false,
   },
+  poisition: {
+    type: String,
+    required: true,
+  },
 })
 
-module.exports = mongoose.model('Admin', adminSchema)
+module.exports = mongoose.model('BoardMember', boardMemberSchema)
