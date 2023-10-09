@@ -1,32 +1,37 @@
 const mongoose = require('mongoose')
 
-const activitySchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: false,
-  },
-  imageUrl: {
-    type: String,
-    required: false,
-  },
-  leadersIds: [
-    {
-      type: mongoose.Types.ObjectId,
+const activitySchema = mongoose.Schema(
+  {
+    title: {
+      type: String,
       required: true,
-      ref: 'ActivityLeader',
     },
-  ],
-  membersIds: [
-    {
-      type: mongoose.Types.ObjectId,
+    description: {
+      type: String,
       required: false,
-      ref: 'User',
     },
-  ],
-})
+    imageUrl: {
+      type: String,
+      required: false,
+    },
+    leadersIds: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'ActivityLeader',
+      },
+    ],
+    membersIds: [
+      {
+        type: mongoose.Types.ObjectId,
+        required: false,
+        ref: 'User',
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+)
 
 module.exports = mongoose.model('Activity', activitySchema)
