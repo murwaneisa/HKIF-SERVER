@@ -8,7 +8,7 @@ const boardMemberRoutes = require('./routes/baordMemberRoutes')
 db.connectToDB()
 
 app.use('/activities', activityRoutes)
-app.use('/board_members', boardMemberRoutes)
+app.use('/boardMembers', boardMemberRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}.`)

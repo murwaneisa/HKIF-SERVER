@@ -19,7 +19,7 @@ const boardMemberSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    poisition: {
+    position: {
       type: String,
       required: true,
     },
@@ -29,4 +29,8 @@ const boardMemberSchema = new mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('BoardMember', boardMemberSchema)
+module.exports = mongoose.model(
+  'BoardMember',
+  boardMemberSchema,
+  'boardMembers'
+)
