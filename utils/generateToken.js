@@ -1,17 +1,18 @@
-import jwt from 'jsonwebtoken'
+const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 
-export const generateAccessToken = (info, type) => {
+const generateAccessToken = (info, type) => {
   const payload = {
     _id: info._id,
     ...(type === 'user' ? { membershipType: info.membershipType } : {}),
     ...(type === 'admin' ? { role: info.role } : {}),
   }
-  return jwt.sign(payload, process.env.JWT_SECRET, {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '15m',
   })
 }
 
-export const generateRefreshToken = (info, type) => {
+const generateRefreshToken = (info, type) => {
   const payload = {
     _id: info._id,
     ...(type === 'user' ? { membershipType: info.membershipType } : {}),
@@ -28,4 +29,9 @@ function generateJti() {
   // Generate a unique JWT ID. This could be a random string.
   // Ensure it's sufficiently random and complex to be unguessable.
   return crypto.randomBytes(16).toString('hex')
+}
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
 }
