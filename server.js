@@ -2,11 +2,13 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 const db = require('./configs/db')
-const actviityRoutes = require('./routes/activityRoutes')
+const activityRoutes = require('./routes/activityRoutes')
+const boardMemberRoutes = require('./routes/baordMemberRoutes')
 
 db.connectToDB()
 
-app.use('/activities', actviityRoutes)
+app.use('/activities', activityRoutes)
+app.use('/board_members', boardMemberRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}.`)

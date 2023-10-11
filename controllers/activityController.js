@@ -1,6 +1,14 @@
 const Activity = require('../models/Activity')
 
-const getAll = async (req, res) => {}
+const getAll = async (req, res) => {
+  try {
+    const activities = await Activity.find()
+    console.log(activities)
+    res.json(activities)
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 const getById = async (req, res) => {}
 
