@@ -19,11 +19,13 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      required: true,
-      enum: ['SUPERADMIN', 'ACTIVITY_MANAGER', 'EVENT_MANAGER'],
-    },
+    role: [
+      {
+        type: String,
+        required: true,
+        enum: ['SUPERADMIN', 'ACTIVITY_MANAGER', 'EVENT_MANAGER'],
+      },
+    ],
     refreshToken: {
       type: String,
       required: false,
