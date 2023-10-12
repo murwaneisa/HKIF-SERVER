@@ -1,6 +1,6 @@
 const Activity = require('../models/Activity')
 
-const getAll = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
     const activities = await Activity.find()
     console.log(activities)
@@ -10,18 +10,10 @@ const getAll = async (req, res) => {
   }
 }
 
-const getById = async (req, res) => {}
+exports.getById = async (req, res) => {}
 
-const create = async (req, res) => {}
+exports.create = async (req, res) => {}
 
-const update = async (req, res) => {}
+exports.update = async (req, res) => {}
 
-const remove = async (req, res) => {}
-
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-}
+exports.remove = async (req, res) => {}

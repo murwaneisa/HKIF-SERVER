@@ -1,18 +1,11 @@
 const BlacklistedToken = require('../models/BlacklistedToken')
 
-const getAll = async (req, res) => {}
+exports.getAll = async (req, res) => {}
 
-// const getByUserId = async (req, res) => {}
+// exports.getByUserId = async (req, res) => {}
 
-const create = async (req, res) => {}
+exports.create = async (req, res) => {}
 
-const update = async (req, res) => {}
+exports.update = async (req, res) => {}
 
-const remove = async (req, res) => {}
-
-module.exports = {
-  getAll,
-  create,
-  update,
-  remove,
-}
+exports.remove = async (req, res) => {}
