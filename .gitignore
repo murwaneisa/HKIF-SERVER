@@ -19,3 +19,6 @@ logs
 # Build files
 build
 dist
+
+# Rest client files
+*.rest
