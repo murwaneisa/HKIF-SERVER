@@ -3,7 +3,6 @@ const BoardMember = require('../models/BoardMember')
 exports.getAll = async (req, res) => {
   try {
     const boardMembers = await BoardMember.find()
-    console.log(boardMembers)
     res.json(boardMembers)
   } catch (err) {
     console.log(err)

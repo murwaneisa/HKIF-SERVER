@@ -15,19 +15,15 @@ const eventSchema = new mongoose.Schema(
       required: false,
     },
     price: {
-      type: Double,
+      type: Number,
       required: true,
     },
-    date: {
-      type: Date,
-      requried: true,
-    },
     startTime: {
-      type: String,
+      type: Date,
       required: true,
     },
     endTime: {
-      type: String,
+      type: Date,
       required: true,
     },
     attendeesIds: [

@@ -13,7 +13,7 @@ exports.getById = async (req, res) => {
   try {
     const activity = await Activity.findById(req.params.id)
     if (!activity) {
-      return res.status(404).json({ error: 'Activity not found' })
+      return res.status(404).json({ message: 'Activity not found' })
     }
     res.json(activity)
   } catch (err) {
@@ -37,7 +37,7 @@ exports.update = async (req, res) => {
       new: true,
     })
     if (!activity) {
-      return res.status(404).send('Activity not found')
+      return res.status(404).send({ message: 'Activity not found' })
     }
     res.json(activity)
   } catch (err) {
@@ -49,7 +49,7 @@ exports.remove = async (req, res) => {
   try {
     const activity = await Activity.findByIdAndRemove(req.params.id)
     if (!activity) {
-      return res.status(404).send('Activity not found')
+      return res.status(404).send({ message: 'Activity not found' })
     }
     res.json({ message: 'Activity deleted successfully' })
   } catch (err) {
