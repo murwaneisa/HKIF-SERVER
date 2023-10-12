@@ -29,4 +29,8 @@ const boardMemberSchema = new mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('BoardMember', boardMemberSchema)
+module.exports = mongoose.model(
+  'BoardMember',
+  boardMemberSchema,
+  'boardMembers'
+)

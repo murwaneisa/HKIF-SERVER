@@ -30,4 +30,8 @@ const activityLeaderSchema = new mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('ActivityLeader', activityLeaderSchema)
+module.exports = mongoose.model(
+  'ActivityLeader',
+  activityLeaderSchema,
+  'activityLeaders'
+)

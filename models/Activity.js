@@ -34,4 +34,4 @@ const activitySchema = mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('Activity', activitySchema)
+module.exports = mongoose.model('Activity', activitySchema, 'activities')
