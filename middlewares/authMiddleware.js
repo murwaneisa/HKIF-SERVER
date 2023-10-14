@@ -1,7 +1,7 @@
 const { generateAccessToken } = require('../utils/generateToken') // Import your token functions
 const { verifyToken } = require('../utils/verifyToken')
 
-function authMiddleware() {
+exports.authMiddleware = () => {
   return async function (req, res, next) {
     if (!req.headers['authorization']) {
       return res
@@ -40,7 +40,7 @@ function authMiddleware() {
   }
 }
 
-function checkPermission(ruleset) {
+exports.checkPermission = ruleset => {
   return async function (req, res, next) {
     if (req.user.membershipType) {
       // This is a user
@@ -62,5 +62,3 @@ function checkPermission(ruleset) {
     next()
   }
 }
-
-module.exports = { authMiddleware, checkPermission }

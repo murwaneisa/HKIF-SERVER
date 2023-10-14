@@ -10,14 +10,14 @@ const generatePayload = (info, type, additionalData = {}) => {
   }
 }
 
-const generateAccessToken = (info, type) => {
+exports.generateAccessToken = (info, type) => {
   const payload = generatePayload(info, type)
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: '15m',
   })
 }
 
-const generateRefreshToken = (info, type) => {
+exports.generateRefreshToken = (info, type) => {
   const additionalData = {
     iat: Math.floor(Date.now() / 1000), // Issued at
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 * 7, // Expires in 210 days
