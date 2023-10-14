@@ -5,7 +5,9 @@ const blacklistedTokenController = require('../controllers/blacklistedTokenContr
 router.post('/', blacklistedTokenController.create)
 router.get('/', blacklistedTokenController.getAll)
 
-router.put('/:id', blacklistedTokenController.update)
-router.delete('/:id', blacklistedTokenController.remove)
+router.get('/user/:userId', blacklistedTokenController.getByUserId)
+router.get('/jti/:jti', blacklistedTokenController.getByJti)
+router.put('/jti/:jti', blacklistedTokenController.update)
+router.delete('/jti/:jti', blacklistedTokenController.remove)
 
 module.exports = router

@@ -1,4 +1,4 @@
-const blacklistedToken = require('../models/blacklistedToken')
+const blacklistedToken = require('../models/BlacklistedToken')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const Admin = require('../models/Admin')
