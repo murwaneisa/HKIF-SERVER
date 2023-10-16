@@ -44,3 +44,57 @@ exports.editUser = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password')
+    return res.status(200).json(users)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password')
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+    // If admin or same user, return all data
+    return res.status(200).json(user)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getPublicUsers = async (req, res) => {
+  try {
+    const users = await User.find({})
+    const limitedUsers = users.map(user => ({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    }))
+    return res.status(200).json(limitedUsers)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getPublicUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+    return res.status(200).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}

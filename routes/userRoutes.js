@@ -18,5 +18,21 @@ router.put(
   }),
   userController.editUser
 )
+router.get('/public', userController.getPublicUsers)
+router.get('/public/:id', userController.getPublicUserById)
+router.get(
+  '/',
+  authMiddleware(),
+  //TODO: Decide which roles can access full data
+  checkPermission({ adminOnly: true }),
+  userController.getAllUsers
+)
+router.get(
+  '/:id',
+  authMiddleware(),
+  //TODO: Decide which roles can access full data
+  checkPermission({ userIdRequired: true }),
+  userController.getUserById
+)
 
 module.exports = router
