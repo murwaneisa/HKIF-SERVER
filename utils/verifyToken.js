@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const Admin = require('../models/Admin')
 
-async function verifyToken(token, tokenType) {
+exports.verifyToken = async (token, tokenType) => {
   try {
     // Determine which secret to use
     const secret =
@@ -55,5 +55,3 @@ async function isJtiBlacklisted(jti) {
     throw new Error('Error checking if JTI is blacklisted:', err)
   }
 }
-
-module.exports = { verifyToken }
