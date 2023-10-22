@@ -3,6 +3,7 @@ const app = express()
 require('dotenv').config()
 const db = require('./configs/db')
 const userRouter = require('./routes/userRoutes')
+const adminRouter = require('./routes/adminRoutes')
 
 app.use(express.json())
 
@@ -11,6 +12,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', userRouter)
+app.use('/admins', adminRouter)
 
 db.connectToDB()
 
