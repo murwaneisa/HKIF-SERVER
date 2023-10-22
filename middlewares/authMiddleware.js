@@ -54,7 +54,7 @@ exports.checkPermission = ruleset => {
       // This is an admin
       if (
         ruleset.requiredRoles &&
-        !ruleset.requiredRoles.includes(req.user.role)
+        !req.user.role.some(role => ruleset.requiredRoles.includes(role))
       ) {
         return res.status(403).json({ message: 'Forbidden' })
       }
