@@ -109,33 +109,3 @@ exports.getAdminById = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
-
-exports.getPublicAdmins = async (req, res) => {
-  try {
-    const admins = await Admin.find({})
-    const limitedAdmins = admins.map(admin => ({
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-    }))
-    return res.status(200).json(limitedAdmins)
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ message: 'Internal Server Error' })
-  }
-}
-
-exports.getPublicAdminById = async (req, res) => {
-  try {
-    const admin = await Admin.findById(req.params.id)
-    if (!admin) {
-      return res.status(404).json({ message: 'Admin not found' })
-    }
-    return res.status(200).json({
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-    })
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ message: 'Internal Server Error' })
-  }
-}

@@ -26,8 +26,6 @@ router.put(
   }),
   adminController.editAdmin
 )
-router.get('/public', adminController.getPublicAdmins)
-router.get('/public/:id', adminController.getPublicAdminById)
 router.get(
   '/',
   authMiddleware(),
@@ -39,7 +37,7 @@ router.get(
   '/:id',
   authMiddleware(),
   //TODO: Decide which roles can access full data
-  checkPermission({ adminIdRequired: true }),
+  checkPermission({ adminOnly: true }),
   adminController.getAdminById
 )
 
