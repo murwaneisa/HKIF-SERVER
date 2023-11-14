@@ -136,3 +136,46 @@ exports.getPublicUserById = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
+
+exports.getUsersContacts = async (req, res) => {
+  try {
+    const users = await User.find({})
+    const limitedUsers = users.map(user => {
+      const userLimitedInfo = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      }
+      if (user.phoneNumber) {
+        userLimitedInfo.phoneNumber = user.phoneNumber
+      }
+      return userLimitedInfo
+    })
+
+    return res.status(200).json(limitedUsers)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getUsersContactsById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+    const userLimitedInfo = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    }
+    if (user.phoneNumber) {
+      userLimitedInfo.phoneNumber = user.phoneNumber
+    }
+    return res.status(200).json(userLimitedInfo)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
