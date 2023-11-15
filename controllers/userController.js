@@ -1,12 +1,20 @@
 const User = require('../models/User')
+const bcrypt = require('bcrypt')
+
 const {
   generateAccessToken,
   generateRefreshToken,
 } = require('../utils/generateToken')
 
+const SALT_ROUNDS = 10
+
 exports.registerUser = async (req, res) => {
   try {
-    const newUser = new User(req.body)
+    const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS)
+    const newUser = new User({
+      ...req.body,
+      password: hashedPassword,
+    })
     await newUser.save()
     res.status(201).json({ message: 'User registered successfully' })
   } catch (err) {
@@ -18,7 +26,11 @@ exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body
     const user = await User.findOne({ email })
-    if (!user || user.password !== password) {
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid credentials' })
     }
     const accessToken = generateAccessToken(user, 'user')
@@ -35,10 +47,36 @@ exports.editUser = async (req, res) => {
   try {
     const userId = req.params.id
     const updates = req.body
-    const user = await User.findByIdAndUpdate(userId, updates, { new: true })
+
+    const user = await User.findById(userId)
     if (!user) {
       return res.status(404).json({ message: 'User not found' })
     }
+
+    if (updates.currentPassword && updates.newPassword) {
+      // Verify the current password
+      const isMatch = await bcrypt.compare(
+        updates.currentPassword,
+        user.password
+      )
+      if (!isMatch) {
+        return res
+          .status(401)
+          .json({ message: 'Current password is incorrect' })
+      }
+
+      // Hash the new password and update it
+      const hashedPassword = await bcrypt.hash(updates.newPassword, SALT_ROUNDS)
+      updates.password = hashedPassword
+    }
+
+    // Remove currentPassword and newPassword from updates to avoid saving them as fields
+    delete updates.currentPassword
+    delete updates.newPassword
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true,
+    })
     res.json({ message: 'User updated successfully' })
   } catch (err) {
     res.status(500).json({ error: err.message })
