@@ -5,7 +5,7 @@ const db = require('./configs/db')
 const userRouter = require('./routes/userRoutes')
 const activityRoutes = require('./routes/activityRoutes')
 const eventRoutes = require('./routes/eventRoutes')
-const boardMemberRoutes = require('./routes/baordMemberRoutes')
+const boardMemberRoutes = require('./routes/boardMemberRoutes')
 const activityLeaderRoutes = require('./routes/activityLeaderRoutes')
 const blacklistedTokenRoutes = require('./routes/blacklistedTokenRoutes')
 
