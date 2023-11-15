@@ -3,14 +3,20 @@ const app = express()
 require('dotenv').config()
 const db = require('./configs/db')
 const userRouter = require('./routes/userRoutes')
+const activityRoutes = require('./routes/activityRoutes')
+const eventRoutes = require('./routes/eventRoutes')
+const boardMemberRoutes = require('./routes/baordMemberRoutes')
+const activityLeaderRoutes = require('./routes/activityLeaderRoutes')
+const blacklistedTokenRoutes = require('./routes/blacklistedTokenRoutes')
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
 app.use('/users', userRouter)
+app.use('/activities', activityRoutes)
+app.use('/events', eventRoutes)
+app.use('/boardMembers', boardMemberRoutes)
+app.use('/activityLeaders', activityLeaderRoutes)
+app.use('/blacklistedTokens', blacklistedTokenRoutes)
 
 db.connectToDB()
 

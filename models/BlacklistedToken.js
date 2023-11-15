@@ -12,7 +12,7 @@ const blacklistedTokenSchema = mongoose.Schema(
       required: false,
     },
     userId: {
-      type: String,
+      type: mongoose.Types.ObjectId,
       required: true,
       ref: 'User',
     },
