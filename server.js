@@ -1,9 +1,16 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 require('dotenv').config()
 const db = require('./configs/db')
 const userRouter = require('./routes/userRoutes')
 const adminRouter = require('./routes/adminRoutes')
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  })
+)
 
 app.use(express.json())
 

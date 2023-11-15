@@ -3,18 +3,16 @@ const { verifyToken } = require('../utils/verifyToken')
 
 exports.authMiddleware = () => {
   return async function (req, res, next) {
-    if (!req.headers['authorization']) {
-      return res
-        .status(401)
-        .json({ message: 'Authorization header is required' })
+    const accessToken = req.headers['authorization']?.split(' ')[1]
+    const refreshToken = req.headers['x-refresh-token']
+
+    if (!accessToken) {
+      return res.status(401).json({ message: 'Access token is required' })
     }
-    let accessToken = req.headers['authorization'].split(' ')[1]
-    if (!req.headers['x-refresh-token']) {
-      return res
-        .status(401)
-        .json({ message: 'x-refresh-token header is required' })
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'Refresh token is required' })
     }
-    let refreshToken = req.headers['x-refresh-token']
     try {
       const decoded = await verifyToken(accessToken, 'access')
       req.user = decoded
