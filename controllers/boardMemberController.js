@@ -22,6 +22,20 @@ exports.getById = async (req, res) => {
   }
 }
 
+exports.getByEmail = async (req, res) => {
+  try {
+    const boardMember = await BoardMember.findOne({
+      email: req.params.email,
+    })
+    if (!boardMember) {
+      return res.status(404).json({ message: 'Board Member not found' })
+    }
+    res.json(boardMember)
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
 exports.create = async (req, res) => {
   try {
     const { firstName, lastName, email, imageUrl, position } = req.body

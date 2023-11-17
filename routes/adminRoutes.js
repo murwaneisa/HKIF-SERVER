@@ -16,7 +16,9 @@ router.post(
   }),
   adminController.registerAdmin
 )
+
 router.post('/login', adminController.loginAdmin)
+
 router.put(
   '/edit/:id',
   authMiddleware(),
@@ -26,6 +28,7 @@ router.put(
   }),
   adminController.editAdmin
 )
+
 router.get(
   '/',
   authMiddleware(),
@@ -33,6 +36,7 @@ router.get(
   checkPermission({ adminOnly: true }),
   adminController.getAllAdmins
 )
+
 router.get(
   '/:id',
   authMiddleware(),
