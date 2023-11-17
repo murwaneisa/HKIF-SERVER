@@ -21,18 +21,27 @@ router.put(
 router.get('/public', userController.getPublicUsers)
 router.get('/public/:id', userController.getPublicUserById)
 router.get(
+  '/contacts',
+  authMiddleware(),
+  checkPermission({ adminOnly: true }),
+  userController.getUsersContacts
+)
+router.get(
+  '/contacts/:id',
+  authMiddleware(),
+  checkPermission({ userIdRequired: true }),
+  userController.getUsersContactsById
+)
+router.get(
   '/',
   authMiddleware(),
-  //TODO: Decide which roles can access full data
-  checkPermission({ adminOnly: true }),
+  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
   userController.getAllUsers
 )
 router.get(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can access full data
-  checkPermission({ userIdRequired: true }),
+  checkPermission({ userIdRequired: true, requiredRoles: ['SUPERADMIN'] }),
   userController.getUserById
 )
-
 module.exports = router
