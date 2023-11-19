@@ -40,7 +40,7 @@ exports.loginAdmin = async (req, res) => {
     const refreshToken = generateRefreshToken(admin, 'admin')
     admin.refreshToken = refreshToken
     await admin.save()
-    res.json({ access: accessToken, refresh: refreshToken })
+    res.json({ adminId: admin._id, access: accessToken, refresh: refreshToken })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -88,7 +88,9 @@ exports.editAdmin = async (req, res) => {
 
 exports.getAllAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find({}).select('-password')
+    const admins = await Admin.find({})
+      .select('-password')
+      .select('-refreshToken')
     return res.status(200).json(admins)
   } catch (error) {
     console.error(error)
@@ -98,12 +100,55 @@ exports.getAllAdmins = async (req, res) => {
 
 exports.getAdminById = async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id).select('-password')
+    const admin = await Admin.findById(req.params.id)
+      .select('-password')
+      .select('-refreshToken')
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' })
     }
     // If admin or same admin, return all data
     return res.status(200).json(admin)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getAdminContacts = async (req, res) => {
+  try {
+    const admins = await Admin.find()
+    const limitedAdmins = admins.map(admin => {
+      return {
+        firstName: admin.firstName,
+        lastName: admin.lastName,
+        email: admin.email,
+        phoneNumber: admin.phoneNumber || null,
+        role: admin.role,
+      }
+    })
+
+    return res.status(200).json(limitedAdmins)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.getAdminContactById = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({ _id: req.params.id })
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' })
+    }
+    const adminLimitedInfo = {
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email,
+      phoneNumber: admin.phoneNumber || null,
+      role: admin.role,
+    }
+
+    return res.status(200).json(adminLimitedInfo)
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })

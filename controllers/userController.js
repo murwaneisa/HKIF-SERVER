@@ -37,7 +37,7 @@ exports.loginUser = async (req, res) => {
     const refreshToken = generateRefreshToken(user, 'user')
     user.refreshToken = refreshToken
     await user.save()
-    res.json({ access: accessToken, refresh: refreshToken })
+    res.json({ userId: user._id, access: accessToken, refresh: refreshToken })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
@@ -85,7 +85,9 @@ exports.editUser = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password')
+    const users = await User.find({})
+      .select('-password')
+      .select('-refreshToken')
     return res.status(200).json(users)
   } catch (error) {
     console.error(error)
@@ -95,7 +97,9 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password')
+    const user = await User.findById(req.params.id)
+      .select('-password')
+      .select('-refreshToken')
     if (!user) {
       return res.status(404).json({ message: 'User not found' })
     }
