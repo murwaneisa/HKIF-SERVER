@@ -26,6 +26,10 @@ const adminSchema = new mongoose.Schema(
         enum: ['SUPERADMIN', 'ACTIVITY_MANAGER', 'EVENT_MANAGER'],
       },
     ],
+    phoneNumber: {
+      type: String,
+      required: false,
+    },
     refreshToken: {
       type: String,
       required: false,

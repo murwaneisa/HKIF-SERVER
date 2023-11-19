@@ -122,7 +122,7 @@ exports.getAdminContacts = async (req, res) => {
         firstName: admin.firstName,
         lastName: admin.lastName,
         email: admin.email,
-        // phoneNumber: admin.phoneNumber || null,
+        phoneNumber: admin.phoneNumber || null,
         role: admin.role,
       }
     })
@@ -144,7 +144,7 @@ exports.getAdminContactById = async (req, res) => {
       firstName: admin.firstName,
       lastName: admin.lastName,
       email: admin.email,
-      // phoneNumber: admin.phoneNumber || null,
+      phoneNumber: admin.phoneNumber || null,
       role: admin.role,
     }
 
