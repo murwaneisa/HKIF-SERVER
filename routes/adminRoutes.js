@@ -11,7 +11,7 @@ router.post(
   '/register',
   authMiddleware(),
   checkPermission({
-    userIdRequired: true,
+    adminOnly: true,
     requiredRoles: ['SUPERADMIN'],
   }),
   adminController.registerAdmin
@@ -21,23 +21,34 @@ router.put(
   '/edit/:id',
   authMiddleware(),
   checkPermission({
-    userIdRequired: true,
-    requiredRoles: ['SUPERADMIN'],
+    // Non-super admins can only edit the information of their own account
+    adminOnly: true,
+    adminIdRequired: true,
   }),
   adminController.editAdmin
 )
 router.get(
+  '/contacts',
+  authMiddleware(),
+  checkPermission({ adminOnly: true }),
+  adminController.getAdminContacts
+)
+router.get(
+  '/contacts/:id',
+  authMiddleware(),
+  checkPermission({ adminOnly: true }),
+  adminController.getAdminContactById
+)
+router.get(
   '/',
   authMiddleware(),
-  //TODO: Decide which roles can access full data
-  checkPermission({ adminOnly: true }),
+  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
   adminController.getAllAdmins
 )
 router.get(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can access full data
-  checkPermission({ adminOnly: true }),
+  checkPermission({ adminOnly: true, adminIdRequired: true }),
   adminController.getAdminById
 )
 
