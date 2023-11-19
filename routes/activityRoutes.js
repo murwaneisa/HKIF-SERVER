@@ -9,7 +9,6 @@ const {
 router.post(
   '/',
   authMiddleware(),
-  //TODO: Decide which roles can create activity
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'ACTIVITY_MANAGER'],
@@ -24,7 +23,6 @@ router.get('/:id', activityController.getById)
 router.put(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can update activity
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'ACTIVITY_MANAGER'],
@@ -35,7 +33,6 @@ router.put(
 router.delete(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can delete activity
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'ACTIVITY_MANAGER'],

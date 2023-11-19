@@ -9,7 +9,6 @@ const {
 router.post(
   '/',
   authMiddleware(),
-  //TODO: Decide which roles can create event
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'EVENT_MANAGER'],
@@ -24,7 +23,6 @@ router.get('/:id', eventController.getById)
 router.put(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can update event
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'EVENT_MANAGER'],
@@ -35,7 +33,6 @@ router.put(
 router.delete(
   '/:id',
   authMiddleware(),
-  //TODO: Decide which roles can delete event
   checkPermission({
     adminOnly: true,
     requiredRoles: ['SUPERADMIN', 'EVENT_MANAGER'],
