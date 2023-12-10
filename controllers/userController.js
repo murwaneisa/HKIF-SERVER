@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const ActivityLeader = require('../models/ActivityLeader')
+const BoardMember = require('../models/BoardMember')
 const bcrypt = require('bcrypt')
 
 const {
@@ -6,15 +8,71 @@ const {
   generateRefreshToken,
 } = require('../utils/generateToken')
 
+const { OAuth2Client } = require('google-auth-library')
 const SALT_ROUNDS = 10
+
+async function verifyGoogleToken(client, clientId, token) {
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      requiredAudience: clientId,
+    })
+    const payload = ticket.getPayload()
+    return payload // This contains user info like email, name, etc.
+  } catch (error) {
+    console.error('Error verifying Google token', error)
+    return null
+  }
+}
+
+exports.googleLogin = async (req, res) => {
+  try {
+    const { idToken, clientId } = req.body
+    const client = new OAuth2Client(clientId)
+    const verifiedUser = await verifyGoogleToken(client, clientId, idToken)
+    if (!verifiedUser) {
+      return res.status(401).json({ message: 'Invalid Google ID token' })
+    }
+    // Check if email exists in the database
+    const user = await User.findOne({ email: verifiedUser.email })
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    // Generate tokens (assuming you have functions for this)
+    const accessToken = generateAccessToken(user, 'user')
+    const refreshToken = generateRefreshToken(user, 'user')
+
+    // Update user with refreshToken and return tokens
+    user.refreshToken = refreshToken
+    await user.save()
+    res.json({ userId: user._id, access: accessToken, refresh: refreshToken })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
 
 exports.registerUser = async (req, res) => {
   try {
+    const { role, email } = req.body
+
+    if ((role === 'ACTIVITY_LEADER' || role === 'BOARD_MEMBER') && email) {
+      const model = role === 'ACTIVITY_LEADER' ? ActivityLeader : BoardMember
+      const existingUser = await model.findOne({ email })
+
+      if (!existingUser) {
+        return res.status(400).json({
+          message: 'User does not exist in the database for the selected role',
+        })
+      }
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS)
     const newUser = new User({
       ...req.body,
       password: hashedPassword,
     })
+
     await newUser.save()
     res.status(201).json({ message: 'User registered successfully' })
   } catch (err) {
