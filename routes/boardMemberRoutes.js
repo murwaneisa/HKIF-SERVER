@@ -6,21 +6,11 @@ const {
   checkPermission,
 } = require('../middlewares/authMiddleware')
 
-router.post(
-  '/',
-  authMiddleware(),
-  checkPermission({
-    adminOnly: true,
-    requiredRoles: ['SUPERADMIN'],
-  }),
-  boardMemberController.create
-)
+// router.get('/email/:email', boardMemberController.getByEmail)
 
-router.get('/', boardMemberController.getAll)
+router.get('/public', boardMemberController.getAllPublic)
 
-router.get('/email/:email', boardMemberController.getByEmail)
-
-router.get('/:id', boardMemberController.getById)
+router.get('/public/:id', boardMemberController.getByIdPublic)
 
 router.put(
   '/:id',
@@ -40,6 +30,34 @@ router.delete(
     requiredRoles: ['SUPERADMIN'],
   }),
   boardMemberController.remove
+)
+
+router.post(
+  '/',
+  authMiddleware(),
+  checkPermission({
+    adminOnly: true,
+    requiredRoles: ['SUPERADMIN'],
+  }),
+  boardMemberController.create
+)
+
+router.get(
+  '/:id',
+  authMiddleware(),
+  checkPermission({
+    adminOnly: true,
+  }),
+  boardMemberController.getById
+)
+
+router.get(
+  '/',
+  authMiddleware(),
+  checkPermission({
+    adminOnly: true,
+  }),
+  boardMemberController.getAll
 )
 
 module.exports = router
