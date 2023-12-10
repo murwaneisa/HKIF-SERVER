@@ -33,6 +33,13 @@ const eventSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    benefits: [
+      {
+        type: String,
+        required: true,
+        enum: ['GAMES', 'FOOD', 'DRINK'],
+      },
+    ],
   },
   {
     timestamps: true,
