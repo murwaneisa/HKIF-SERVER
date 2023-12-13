@@ -6,21 +6,18 @@ const {
   checkPermission,
 } = require('../middlewares/authMiddleware')
 
-router.post(
-  '/',
+router.get('/public', activityLeaderController.getAllPublic)
+
+router.get('/public/:id', activityLeaderController.getByIdPublic)
+
+router.get(
+  '/:id',
   authMiddleware(),
   checkPermission({
     adminOnly: true,
-    requiredRoles: ['SUPERADMIN'],
   }),
-  activityLeaderController.create
+  activityLeaderController.getById
 )
-
-router.get('/', activityLeaderController.getAll)
-
-router.get('/email/:email', activityLeaderController.getByEmail)
-
-router.get('/:id', activityLeaderController.getById)
 
 router.put(
   '/:id',
@@ -41,5 +38,25 @@ router.delete(
   }),
   activityLeaderController.remove
 )
+
+router.get(
+  '/',
+  authMiddleware(),
+  checkPermission({
+    adminOnly: true,
+  }),
+  activityLeaderController.getAll
+)
+
+router.post(
+  '/',
+  authMiddleware(),
+  checkPermission({
+    adminOnly: true,
+    requiredRoles: ['SUPERADMIN'],
+  }),
+  activityLeaderController.create
+)
+// router.get('/email/:email', activityLeaderController.getByEmail)
 
 module.exports = router

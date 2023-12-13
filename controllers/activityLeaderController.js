@@ -21,12 +21,19 @@ exports.getById = async (req, res) => {
     res.status(500).json({ message: 'Server error' })
   }
 }
-
-exports.getByEmail = async (req, res) => {
+exports.getAllPublic = async (req, res) => {
   try {
-    const activityLeader = await ActivityLeader.findOne({
-      email: req.params.email,
-    })
+    const activityLeaders = await ActivityLeader.find().select('-email') // Exclude email
+    res.json(activityLeaders)
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+exports.getByIdPublic = async (req, res) => {
+  try {
+    const id = req.params.id
+    const activityLeader = await ActivityLeader.findById(id).select('-email') // Exclude email
     if (!activityLeader) {
       return res.status(404).json({ message: 'Activity Leader not found' })
     }
@@ -35,6 +42,19 @@ exports.getByEmail = async (req, res) => {
     res.status(500).json({ message: 'Server error' })
   }
 }
+// exports.getByEmail = async (req, res) => {
+//   try {
+//     const activityLeader = await ActivityLeader.findOne({
+//       email: req.params.email,
+//     })
+//     if (!activityLeader) {
+//       return res.status(404).json({ message: 'Activity Leader not found' })
+//     }
+//     res.json(activityLeader)
+//   } catch (err) {
+//     res.status(500).json({ message: 'Server error' })
+//   }
+// }
 
 exports.create = async (req, res) => {
   try {
