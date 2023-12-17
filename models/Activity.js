@@ -28,6 +28,18 @@ const activitySchema = mongoose.Schema(
         ref: 'User',
       },
     ],
+    schedules: [
+      {
+        startTime: {
+          type: Date,
+          required: true,
+        },
+        endTime: {
+          type: Date,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
