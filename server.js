@@ -11,11 +11,7 @@ const activityLeaderRoutes = require('./routes/activityLeaderRoutes')
 const blacklistedTokenRoutes = require('./routes/blacklistedTokenRoutes')
 const adminRouter = require('./routes/adminRoutes')
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-  })
-)
+app.use(cors())
 
 app.use(express.json())
 
