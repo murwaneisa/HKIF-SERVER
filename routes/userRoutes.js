@@ -12,6 +12,9 @@ router.post('/register', userController.registerUser)
 router.post('/login', userController.loginUser)
 router.post('/google-login', userController.googleLogin)
 
+router.post('/request-password-reset', userController.requestPasswordReset)
+router.post('/reset-password', userController.resetPassword)
+
 router.put(
   '/edit/:id',
   authMiddleware(),

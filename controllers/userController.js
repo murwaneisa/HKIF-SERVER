@@ -2,6 +2,8 @@ const User = require('../models/User')
 const ActivityLeader = require('../models/ActivityLeader')
 const BoardMember = require('../models/BoardMember')
 const bcrypt = require('bcrypt')
+const { sendVerificationEmail } = require('../utils/emailService')
+const { generateRandomCode } = require('../utils/generateRandomCode')
 
 const {
   generateAccessToken,
@@ -239,5 +241,58 @@ exports.getUsersContactsById = async (req, res) => {
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    const verificationCode = generateRandomCode()
+    const expirationTime = new Date()
+    // console.log('Before adjustment:', expirationTime.toLocaleString())
+    expirationTime.setHours(expirationTime.getHours() + 1)
+    // console.log('After adjustment:', expirationTime.toLocaleString())
+
+    user.verificationCode = verificationCode
+    user.verificationCodeExpires = expirationTime
+    await user.save()
+
+    sendVerificationEmail(email, verificationCode)
+
+    res.status(200).json({ message: 'Verification code sent to email' })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
+}
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, verificationCode, newPassword } = req.body
+    // console.log(email, verificationCode, newPassword)
+    const user = await User.findOne({
+      email,
+      verificationCode,
+      verificationCodeExpires: { $gt: new Date() },
+    })
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: 'Invalid or expired verification code' })
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS)
+    user.password = hashedPassword
+    user.verificationCode = null
+    user.verificationCodeExpires = null
+    await user.save()
+
+    res.status(200).json({ message: 'Password reset successfully' })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' })
   }
 }
