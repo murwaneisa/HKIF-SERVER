@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const db = require('./configs/db')
-const userRouter = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes')
 const activityRoutes = require('./routes/activityRoutes')
 const eventRoutes = require('./routes/eventRoutes')
 const boardMemberRoutes = require('./routes/boardMemberRoutes')
@@ -11,15 +11,11 @@ const activityLeaderRoutes = require('./routes/activityLeaderRoutes')
 const blacklistedTokenRoutes = require('./routes/blacklistedTokenRoutes')
 const adminRouter = require('./routes/adminRoutes')
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-  })
-)
+app.use(cors())
 
 app.use(express.json())
 
-app.use('/users', userRouter)
+app.use('/users', userRoutes)
 app.use('/activities', activityRoutes)
 app.use('/events', eventRoutes)
 app.use('/boardMembers', boardMemberRoutes)
