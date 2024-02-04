@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: [
-        'GUEST',
+        'UNPAID',
         'AWAITING_VERIFICATION',
         'BASIC_MEMBERSHIP',
         'FULL_MEMBERSHIP',
