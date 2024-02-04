@@ -124,6 +124,7 @@ exports.getAdminContacts = async (req, res) => {
         email: admin.email,
         phoneNumber: admin.phoneNumber || null,
         role: admin.role,
+        imageUrl: admin.imageUrl,
       }
     })
 
@@ -146,6 +147,7 @@ exports.getAdminContactById = async (req, res) => {
       email: admin.email,
       phoneNumber: admin.phoneNumber || null,
       role: admin.role,
+      imageUrl: admin.imageUrl,
     }
 
     return res.status(200).json(adminLimitedInfo)

@@ -177,6 +177,7 @@ exports.getPublicUsers = async (req, res) => {
     const limitedUsers = users.map(user => ({
       firstName: user.firstName,
       lastName: user.lastName,
+      imageUrl: user.imageUrl,
     }))
     return res.status(200).json(limitedUsers)
   } catch (error) {
@@ -194,6 +195,7 @@ exports.getPublicUserById = async (req, res) => {
     return res.status(200).json({
       firstName: user.firstName,
       lastName: user.lastName,
+      imageUrl: user.imageUrl,
     })
   } catch (error) {
     console.error(error)
@@ -209,6 +211,7 @@ exports.getUsersContacts = async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        imageUrl: user.imageUrl,
       }
       if (user.phoneNumber) {
         userLimitedInfo.phoneNumber = user.phoneNumber
@@ -233,6 +236,7 @@ exports.getUsersContactsById = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      imageUrl: user.imageUrl,
     }
     if (user.phoneNumber) {
       userLimitedInfo.phoneNumber = user.phoneNumber
