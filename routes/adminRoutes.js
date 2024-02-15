@@ -42,18 +42,26 @@ router.get(
   checkPermission({ adminOnly: true }),
   adminController.getAdminContactById
 )
-router.get(
-  '/',
-  authMiddleware(),
-  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
-  adminController.getAllAdmins
-)
 
 router.get(
   '/:id',
   authMiddleware(),
   checkPermission({ adminOnly: true, adminIdRequired: true }),
   adminController.getAdminById
+)
+
+router.delete(
+  '/:id',
+  authMiddleware(),
+  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
+  adminController.deleteAdmin
+)
+
+router.get(
+  '/',
+  authMiddleware(),
+  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
+  adminController.getAllAdmins
 )
 
 module.exports = router
