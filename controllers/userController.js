@@ -136,8 +136,8 @@ exports.editUser = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(userId, updates, {
       new: true,
-    })
-    res.json({ message: 'User updated successfully' })
+    }).select('-password -refreshToken')
+    res.json(updatedUser)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
