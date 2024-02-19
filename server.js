@@ -10,6 +10,7 @@ const boardMemberRoutes = require('./routes/boardMemberRoutes')
 const activityLeaderRoutes = require('./routes/activityLeaderRoutes')
 const blacklistedTokenRoutes = require('./routes/blacklistedTokenRoutes')
 const adminRouter = require('./routes/adminRoutes')
+const paymentRouter = require('./routes/paymentRoutes')
 
 app.use(cors())
 
@@ -22,6 +23,7 @@ app.use('/boardMembers', boardMemberRoutes)
 app.use('/activityLeaders', activityLeaderRoutes)
 app.use('/blacklistedTokens', blacklistedTokenRoutes)
 app.use('/admins', adminRouter)
+app.use('/payment', paymentRouter)
 
 db.connectToDB()
 

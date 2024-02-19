@@ -56,11 +56,11 @@ const paymentSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    verifiedByAdmin: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Admin',
-      required: false,
-    },
+    // verifiedByAdmin: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: 'Admin',
+    //   required: false,
+    // },
   },
   {
     timestamps: true,
@@ -84,4 +84,4 @@ paymentSchema.pre('save', function (next) {
   next()
 })
 
-module.exports = mongoose.model('Payment', paymentSchema)
+module.exports = mongoose.model('Payment', paymentSchema, 'payments')
