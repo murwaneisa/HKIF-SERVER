@@ -156,3 +156,19 @@ exports.getAdminContactById = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error' })
   }
 }
+
+exports.deleteAdmin = async (req, res) => {
+  try {
+    const adminIdToDelete = req.params.id
+    const adminToDelete = await Admin.findById(adminIdToDelete)
+
+    if (!adminToDelete.role.includes('SUPERADMIN')) {
+      await Admin.deleteOne({ _id: adminIdToDelete })
+      res.json({ message: 'Admin deleted successfully' })
+    } else {
+      res.status(403).json({ message: 'Cannot delete a super admin' })
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
