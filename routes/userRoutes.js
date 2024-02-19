@@ -57,4 +57,11 @@ router.get(
   userController.getUserById
 )
 
+router.delete(
+  '/:id',
+  authMiddleware(),
+  checkPermission({ adminOnly: true, requiredRoles: ['SUPERADMIN'] }),
+  userController.deleteUser
+)
+
 module.exports = router
