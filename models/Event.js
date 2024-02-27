@@ -40,6 +40,10 @@ const eventSchema = new mongoose.Schema(
         enum: ['GAMES', 'FOOD', 'DRINK'],
       },
     ],
+    address: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
