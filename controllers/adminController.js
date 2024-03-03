@@ -19,7 +19,7 @@ exports.registerAdmin = async (req, res) => {
       password: hashedPassword,
     })
     await newAdmin.save()
-    res.status(201).json({ message: 'Admin registered successfully' })
+    res.status(201).json(newAdmin)
   } catch (err) {
     res.status(400).json({ error: err.message })
   }
