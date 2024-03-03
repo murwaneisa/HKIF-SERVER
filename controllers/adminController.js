@@ -80,7 +80,7 @@ exports.editAdmin = async (req, res) => {
     const updatedAdmin = await Admin.findByIdAndUpdate(adminId, updates, {
       new: true,
     })
-    res.json({ message: 'Admin updated successfully' })
+    res.json(updatedAdmin)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
