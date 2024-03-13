@@ -29,7 +29,7 @@ exports.verifyUserPayment = async (req, res) => {
     }
 
     // Update membership-type in users collection
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       membershipType: updatedMembershipType,
     })
 
@@ -38,7 +38,10 @@ exports.verifyUserPayment = async (req, res) => {
       status: 'verified',
     })
 
-    res.status(200).json({ message: 'Payment verified successfully.' })
+    res.status(200).json({
+      membershipType: updatedUser.membershipType,
+      message: 'Payment verified successfully.',
+    })
   } catch (err) {
     res.status(500).json({ message: 'Internal Server Error', err })
   }
@@ -58,7 +61,7 @@ exports.declineUserPayment = async (req, res) => {
     }
 
     // Update membership-type in users collection
-    await User.findByIdAndUpdate(userId, {
+    const updatedUser = await User.findByIdAndUpdate(userId, {
       membershipType: 'UNPAID',
     })
 
@@ -67,7 +70,10 @@ exports.declineUserPayment = async (req, res) => {
       status: 'failed',
     })
 
-    res.status(200).json({ message: 'Payment declined successfully.' })
+    res.status(200).json({
+      membershipType: updatedMembershipType,
+      message: 'Payment declined successfully.',
+    })
   } catch (err) {
     res.status(500).json({ message: 'Internal Server Error', err })
   }
