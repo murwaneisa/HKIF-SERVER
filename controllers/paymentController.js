@@ -71,7 +71,7 @@ exports.declineUserPayment = async (req, res) => {
     })
 
     res.status(200).json({
-      membershipType: updatedMembershipType,
+      membershipType: updatedUser.membershipType,
       message: 'Payment declined successfully.',
     })
   } catch (err) {
