@@ -19,11 +19,13 @@ const activityLeaderSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    activityId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: 'Activity',
-    },
+    activityId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
+        ref: 'Activity',
+      },
+    ],
   },
   {
     timestamps: true,
