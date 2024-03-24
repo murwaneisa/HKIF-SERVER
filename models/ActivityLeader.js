@@ -19,7 +19,7 @@ const activityLeaderSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    activityIds: [
+    activitiesIds: [
       {
         type: mongoose.Schema.Types.ObjectId,
         required: false,
