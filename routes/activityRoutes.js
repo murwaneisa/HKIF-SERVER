@@ -40,4 +40,6 @@ router.delete(
   activityController.remove
 )
 
+router.put('/:id/member/:memberId', activityController.toggleMember)
+
 module.exports = router
