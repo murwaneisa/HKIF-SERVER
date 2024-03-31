@@ -30,12 +30,16 @@ const activitySchema = mongoose.Schema(
     ],
     schedules: [
       {
+        day: {
+          type: Number,
+          required: true,
+        },
         startTime: {
-          type: Date,
+          type: String,
           required: true,
         },
         endTime: {
-          type: Date,
+          type: String,
           required: true,
         },
       },
